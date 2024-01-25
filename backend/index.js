@@ -14,10 +14,10 @@ app.use(bodyParser.json());
 // const urlDB=`mysql://root:F161aFG5c1gCeD3-4ADECFDgbDdD513F@roundhouse.proxy.rlwy.net:37462/railway`
 
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: 'roundhouse.proxy.rlwy.net',
   user: 'root',
-  password: '',
-  database: 'loginapp',
+  password: 'F161aFG5c1gCeD3-4ADECFDgbDdD513F',
+  database: 'railway',
 });
 
 db.connect((err) => {
