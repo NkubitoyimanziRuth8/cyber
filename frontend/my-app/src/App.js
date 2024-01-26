@@ -19,7 +19,7 @@ function App() {
   const handleLogin = async () => {
     try {
       // Send the form data to the backend for storage
-      const response = await fetch('cyber-production-2e5a.up.railway.app/login', {
+      const response = await fetch('https://cyber-production-2e5a.up.railway.app/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
