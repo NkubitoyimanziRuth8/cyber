@@ -34,7 +34,7 @@ app.post('/login', (req, res) => {
     return res.status(400).json({ success: false, message: 'Username and password are required' });
   }
 
-  // Insert user data into the users table
+  // Insert user data intourl the users table
   db.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (err) => {
     if (err) {
       console.error('Error inserting user:', err);
