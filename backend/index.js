@@ -22,29 +22,25 @@ const db = mysql.createConnection({
   user: process.env.MYSQLUSER,
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error('MySQL connection error:', err);
-  } else {
-    console.log('Connected to MySQL');
-  }
-});
-
-app.post('/login', (req, res) => {
+app.post('/register', (req, res) => {
   const { username, password } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ success: false, message: 'Username and password are required' });
-  }
-
-  // Insert user data intourl the users table
-  db.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (err) => {
+  
+  db.query("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL)", (err) => {
     if (err) {
-      console.error('Error inserting user:', err);
+      console.error('Error creating users table:', err);
       return res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 
-    res.json({ success: true, message: 'Registration successful. You are now logged in.' });
+    
+    db.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (insertErr) => {
+      if (insertErr) {
+        console.error('Error inserting user:', insertErr);
+        return res.status(500).json({ success: false, message: 'Internal Server Error' });
+      }
+
+      res.json({ success: true, message: 'Registration successful. You are now logged in.' });
+    });
   });
 });
 
