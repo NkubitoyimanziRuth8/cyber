@@ -1,6 +1,5 @@
 // index.js
 
-// require("dotenv").config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -11,13 +10,12 @@ const PORT = 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
-// const urlDB=`mysql://root:F161aFG5c1gCeD3-4ADECFDgbDdD513F@roundhouse.proxy.rlwy.net:37462/railway`
 
 const db = mysql.createConnection({
-  host: 'roundhouse.proxy.rlwy.net',
+  host: 'localhost',
   user: 'root',
-  password: 'F161aFG5c1gCeD3-4ADECFDgbDdD513F',
-  database: 'railway',
+  password: '',
+  database: 'loginapp',
 });
 
 db.connect((err) => {
@@ -49,4 +47,3 @@ app.post('/login', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
