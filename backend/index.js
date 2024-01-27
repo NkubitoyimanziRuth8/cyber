@@ -38,7 +38,7 @@ app.post('/login', (req, res) => {
         console.error('Error inserting user:', insertErr);
         return res.status(500).json({ success: false, message: 'Internal Server Error' });
       }
-
+      console.log("Working as intended");
       res.json({ success: true, message: 'Registration successful. You are now logged in.' });
     });
   });
