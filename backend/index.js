@@ -45,5 +45,6 @@ app.post('/register', (req, res) => {
 });
 
 app.listen(PORT, () => {
+  console.log(process.env.MYSQLHOST);
   console.log(`Server is running on port ${PORT}`);
 });
