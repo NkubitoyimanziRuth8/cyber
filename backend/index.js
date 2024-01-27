@@ -22,7 +22,7 @@ const db = mysql.createConnection({
   user: process.env.MYSQLUSER,
 });
 
-app.post('/login', (req, res) => {
+app.post('/register', (req, res) => {
   const { username, password } = req.body;
 
   
