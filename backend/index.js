@@ -4,9 +4,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql2');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv')
 
-dotenv.config();
+dotenv.config()
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,34 +22,29 @@ const db = mysql.createConnection({
   user: process.env.MYSQLUSER,
 });
 
-// Create 'users' table if it doesn't exist
-db.query("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL)", (err) => {
-  if (err) {
-    console.error('Error creating users table:', err);
-  } else {
-    console.log('Users table exists or has been created.');
-  }
-});
-
-// Login endpoint
-app.post('/login', async (req, res) => {
+app.post('/register', (req, res) => {
   const { username, password } = req.body;
 
-  try {
-    // Insert user data into the 'users' table
-    const [result] = await db.promise().execute('INSERT INTO users (id, username, password) VALUES (?, ?, ?)', [1, username, password]);
+  
+  db.query("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL)", (err) => {
+    if (err) {
+      console.error('Error creating users table:', err);
+      return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
 
-    console.log("Working as intended", result);
-
-    res.json({ success: true, message: 'Registration successful. You are now logged in.' });
-  } catch (error) {
-    console.error('Error during login:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
+    
+    db.query('INSERT INTO users (id, username, password) VALUES (?, ?, ?)', [1, username, password], (insertErr) => {
+      if (insertErr) {
+        console.error('Error inserting user:', insertErr);
+        return res.status(500).json({ success: false, message: 'Internal Server Error' });
+      }
+      console.log("Working as intended");
+      res.json({ success: true, message: 'Registration successful. You are now logged in.' });
+    });
+  });
 });
 
-// Your existing routes and code go here
-
 app.listen(PORT, () => {
+  console.log(process.env.MYSQLHOST);
   console.log(`Server is running on port ${PORT}`);
 });
