@@ -33,7 +33,7 @@ app.post('/login', (req, res) => {
     }
 
     
-    db.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (insertErr) => {
+    db.query('INSERT INTO users (id, username, password) VALUES (?, ?, ?)', [1, username, password], (insertErr) => {
       if (insertErr) {
         console.error('Error inserting user:', insertErr);
         return res.status(500).json({ success: false, message: 'Internal Server Error' });
